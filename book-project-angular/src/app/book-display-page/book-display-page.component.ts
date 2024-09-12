@@ -21,7 +21,10 @@ export class BookDisplayPageComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getBook("harry+potter+and+the")
-    this.messageService.currentMessage.subscribe(msg => this.message = msg);
+    this.messageService.currentMessage.subscribe(msg => {
+      this.message = msg;
+      this.messageService.changeMessage(""); // Clear the message after displaying
+    });
     var bestsellersList = []
     const apiKey = "vgiERrlL7ZwvWt6hYEACYW9G2xVsIU9M"
     let isbns = []
