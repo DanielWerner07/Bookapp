@@ -16,3 +16,14 @@
   text-align: center;
   padding-top: 20px;
 }
+
+.alert {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center;     /* Centers vertically */
+  text-align: center;
+  font-size: 24px;          /* Increases the font size */
+  font-weight: bold;        /* Makes the text bold */
+  // height: 100vh;            /* Centers vertically by making the container full height */
+  color: #d9534f;           /* Sets the text color to match the alert styling (Bootstrap's alert-warning color) */
+}

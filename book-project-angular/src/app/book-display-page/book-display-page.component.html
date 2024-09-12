@@ -1,12 +1,11 @@
 <page-header></page-header>
-
+<div *ngIf="message" class="alert">
+  {{ message }}
+</div>
 <div *ngFor="let book of books" class="card">
   <header class="card-header">
     <h1 class="card-header-title is-centered">{{ book.title }}</h1>
   </header>
-  <div *ngIf="message" class="alert alert-warning">
-    {{ message }}
-  </div>
   <div class="card-content">
     <div class="content is-small has-text-left">
       <div class="columns">

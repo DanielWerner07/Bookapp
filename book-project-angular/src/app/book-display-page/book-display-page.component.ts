@@ -23,7 +23,7 @@ export class BookDisplayPageComponent implements OnInit {
     // this.getBook("harry+potter+and+the")
     this.messageService.currentMessage.subscribe(msg => {
       this.message = msg;
-      this.messageService.changeMessage(""); // Clear the message after displaying
+      // this.messageService.changeMessage("");
     });
     var bestsellersList = []
     const apiKey = "vgiERrlL7ZwvWt6hYEACYW9G2xVsIU9M"
