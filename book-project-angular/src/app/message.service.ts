@@ -5,12 +5,12 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class MessageService {
-  private messageSource = new BehaviorSubject<string>(""); // BehaviorSubject stores and emits the last message
+  private messageSource = new BehaviorSubject<string>(""); 
   currentMessage = this.messageSource.asObservable();
 
   constructor() { }
 
   changeMessage(message: string) {
-    this.messageSource.next(message); // Change the message
+    this.messageSource.next(message); 
   }
 }

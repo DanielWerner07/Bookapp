@@ -5,6 +5,7 @@ import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { currentUser } from '../data/userData';
 import { Book } from '../data/book';
 import { Router } from '@angular/router';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-user-page',
@@ -46,7 +47,7 @@ export class UserPageComponent implements OnInit {
   
   books: Array<Book> = [];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private messageService: MessageService) {
     this.username = currentUser.name
     this.userImage = currentUser.image
     //this.userId = this.user.uid
@@ -97,6 +98,7 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     // User is signed out
     console.log("user is signed out")
+    this.messageService.changeMessage("Please log in to access this page.");
     this.router.navigate(['/home']);
   }
    });

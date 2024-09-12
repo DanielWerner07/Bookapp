@@ -5,6 +5,7 @@ import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { Book } from '../data/book';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { currentUser } from '../data/userData';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-list',
@@ -31,7 +32,7 @@ export class ListComponent implements OnInit {
   user = this.auth.currentUser;
   library: any[];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private messageService: MessageService) { }
 
   async ngOnInit(): Promise<void> {
     const auth = getAuth();
@@ -52,6 +53,7 @@ export class ListComponent implements OnInit {
       } else {
         // Redirect to home page if no user is authenticated
         console.log("User is signed out");
+        this.messageService.changeMessage("Please log in to access this page.");
         this.router.navigate(['/home']);
       }
     });
