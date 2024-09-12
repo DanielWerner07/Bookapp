@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from '../data/book';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { currentbooks } from '../data/currentbook';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'book-display-page',
@@ -12,13 +13,15 @@ export class BookDisplayPageComponent implements OnInit {
 
   books: Array<Book> = currentbooks;
   bestsellers: Array<Book> = [];
+  message: string = "";
 
-  constructor() {
+  constructor(private messageService: MessageService) {
     this.bestsellers = []
   }
 
   ngOnInit(): void {
     // this.getBook("harry+potter+and+the")
+    this.messageService.currentMessage.subscribe(msg => this.message = msg);
     var bestsellersList = []
     const apiKey = "vgiERrlL7ZwvWt6hYEACYW9G2xVsIU9M"
     let isbns = []
