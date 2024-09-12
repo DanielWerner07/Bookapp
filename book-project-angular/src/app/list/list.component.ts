@@ -4,6 +4,7 @@ import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { Book } from '../data/book';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { currentUser } from '../data/userData';
 
 @Component({
   selector: 'app-list',
@@ -31,12 +32,15 @@ export class ListComponent implements OnInit {
   userId = this.user.uid;
   library;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   async ngOnInit(): Promise<void> {
     const docRef = doc(this.db, "users", this.userId);
     const docSnap = await getDoc(docRef);
     this.library = docSnap.data()['Library'];
+    if (!currentUser) {
+      this.router.navigate(['/home']);
+    }
     for (let i = 0; i < this.library.length; i++) {
       fetch(`https://www.googleapis.com/books/v1/volumes/${this.library[i]}?key=${this.key}`)
       .then(response => response.json())
