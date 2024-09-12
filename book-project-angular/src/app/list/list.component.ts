@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { Book } from '../data/book';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -29,26 +29,31 @@ export class ListComponent implements OnInit {
   auth = getAuth();
   db = getFirestore(this.app);
   user = this.auth.currentUser;
-  userId = this.user.uid;
-  library;
+  library: any[];
 
   constructor(private router: Router) { }
 
   async ngOnInit(): Promise<void> {
-    // if (this.user = null) {
-    //   console.log("test");
-    //   this.router.navigate(['/home']);
-    // }
-    const docRef = doc(this.db, "users", this.user.uid);
-    const docSnap = await getDoc(docRef);
-    this.library = docSnap.data()['Library'];
-    for (let i = 0; i < this.library.length; i++) {
-      fetch(`https://www.googleapis.com/books/v1/volumes/${this.library[i]}?key=${this.key}`)
-      .then(response => response.json())
-      .then(result => {
-            this.books[i] = result.volumeInfo;
-            this.books[i].id = result.id;
-      })  
-    }
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.user = user; // Set the user
+        const docRef = doc(this.db, "users", this.user.uid);
+        const docSnap = await getDoc(docRef);
+        this.library = docSnap.data()['Library'];
+        for (let i = 0; i < this.library.length; i++) {
+          fetch(`https://www.googleapis.com/books/v1/volumes/${this.library[i]}?key=${this.key}`)
+          .then(response => response.json())
+          .then(result => {
+                this.books[i] = result.volumeInfo;
+                this.books[i].id = result.id;
+          })  
+        }
+      } else {
+        // Redirect to home page if no user is authenticated
+        console.log("User is signed out");
+        this.router.navigate(['/home']);
+      }
+    });
   }
 }
