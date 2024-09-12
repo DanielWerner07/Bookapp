@@ -35,12 +35,13 @@ export class ListComponent implements OnInit {
   constructor(private router: Router) { }
 
   async ngOnInit(): Promise<void> {
-    const docRef = doc(this.db, "users", this.userId);
+    // if (this.user = null) {
+    //   console.log("test");
+    //   this.router.navigate(['/home']);
+    // }
+    const docRef = doc(this.db, "users", this.user.uid);
     const docSnap = await getDoc(docRef);
     this.library = docSnap.data()['Library'];
-    if (!currentUser) {
-      this.router.navigate(['/home']);
-    }
     for (let i = 0; i < this.library.length; i++) {
       fetch(`https://www.googleapis.com/books/v1/volumes/${this.library[i]}?key=${this.key}`)
       .then(response => response.json())
